@@ -57,24 +57,6 @@
         },
       ],
     },
-     {
-      title: {
-        text: 'ECharts Example 3',
-      },
-      xAxis: {
-        type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-      },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          type: 'bar',
-          data: [220, 182, 191, 234, 290, 330, 310],
-        },
-      ],
-    },
     // Add more chart options as needed
   ];
 </script>
