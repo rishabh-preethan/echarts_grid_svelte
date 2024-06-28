@@ -4,6 +4,8 @@
 
     export let option = {};
 
+    // This component is responsible for rendering the echart
+
     let chartDiv;
     let chart;
 
@@ -11,6 +13,7 @@
       chart = echarts.init(chartDiv);
       chart.setOption(option);
 
+      //   resizes and recalculates space after tile has been resized
       const resizeObserver = new ResizeObserver(() => {
         if (chart) {
           chart.resize();
