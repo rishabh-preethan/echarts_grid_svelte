@@ -5,12 +5,16 @@
 
   export let chartOptions = [];
 
+/*  this component is responsible for the grid creation and also calls the ChartComponent
+    that renders the chart   */
+
   let fillFree = true;
 
   // Function to generate unique IDs
   const id = () => "_" + Math.random().toString(36).substr(2, 9);
 
   // Generate grid layout with dynamic items
+  // grid consists of 16 columns
   function generateLayout(col) {
     return new Array(1).fill(null).map(function (item, i) {
       const y = 2; // Fixed height suitable for charts
@@ -30,12 +34,15 @@
   let items = gridHelp.adjust(generateLayout(16), 16);
 </script>
 
+<!-- Button to fill up the empty spaces between the tiles in the grid -->
 <label>
   <input type="checkbox" bind:checked={fillFree} />
   'Fill space' is {fillFree ? "enabled" : "disabled"}
 </label>
 
+
 <div class="demo-container">
+  <!-- iterate through the options passed from ParentComponent -->
   {#each chartOptions as option, index}
     <Grid
       bind:items
@@ -45,6 +52,7 @@
       {cols}
       fillSpace={fillFree}
     >
+    <!-- Render the echarts -->
       <div class="demo-widget" key={index}>
         <ChartComponent {option} style="width: 100%; height: 100%;" />
       </div>
