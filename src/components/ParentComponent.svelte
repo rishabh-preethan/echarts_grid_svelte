@@ -44,30 +44,78 @@
         ],
       },
       {
-        // Configuration for the third chart
         title: {
-          text: 'ECharts Example 3', // Title of the chart
+            text: 'Stacked Bar Chart Example 3', // Title of the chart
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+            type: 'shadow', // The tooltip will show a shadow pointer
+            },
+        },
+        legend: {
+            data: ['Series 1', 'Series 2'], // Legend entries for the series
         },
         xAxis: {
-          type: 'category', // X-axis is of category type
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Categories on the X-axis
+            type: 'category', // X-axis is of category type
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Categories on the X-axis
         },
         yAxis: {
-          type: 'value', // Y-axis is of value type
+            type: 'value', // Y-axis is of value type
         },
         series: [
-          {
-            type: 'pie', // Series type is pie
-            data: [
-              { value: 335, name: 'Mon' }, // Data point for Monday
-              { value: 310, name: 'Tue' }, // Data point for Tuesday
-              { value: 234, name: 'Wed' }, // Data point for Wednesday
-              { value: 135, name: 'Thu' }, // Data point for Thursday
-              { value: 1548, name: 'Fri' }, // Data point for Friday
-            ],
-          },
+            {
+            name: 'Series 1', // Name of the first series
+            type: 'bar', // Series type is bar
+            stack: 'total', // Stack the bars
+            data: [120, 200, 150, 80, 70, 110, 130], // Data points for the first series
+            },
+            {
+            name: 'Series 2', // Name of the second series
+            type: 'bar', // Series type is bar
+            stack: 'total', // Stack the bars
+            data: [60, 80, 90, 40, 50, 70, 60], // Data points for the second series
+            },
         ],
-      }
+      },
+      {
+        title: {
+            text: 'Area Chart Example 4', // Title of the chart
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+            type: 'cross', // The tooltip will show a cross pointer
+            },
+        },
+        legend: {
+            data: ['Series 1', 'Series 2'], // Legend entries for the series
+        },
+        xAxis: {
+            type: 'category', // X-axis is of category type
+            boundaryGap: false, // Boundary gap is set to false to align the area chart with the X-axis
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], // Categories on the X-axis
+        },
+        yAxis: {
+            type: 'value', // Y-axis is of value type
+        },
+        series: [
+            {
+            name: 'Series 1', // Name of the first series
+            type: 'line', // Series type is line
+            stack: 'total', // Stack the lines
+            areaStyle: {}, // This property fills the area under the line
+            data: [120, 200, 150, 80, 70, 110, 130], // Data points for the first series
+            },
+            {
+            name: 'Series 2', // Name of the second series
+            type: 'line', // Series type is line
+            stack: 'total', // Stack the lines
+            areaStyle: {}, // This property fills the area under the line
+            data: [60, 80, 90, 40, 50, 70, 60], // Data points for the second series
+            },
+        ],
+      },
     ];
   </script>
   
