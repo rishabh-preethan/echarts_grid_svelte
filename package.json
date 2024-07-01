@@ -19,6 +19,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"html2canvas": "^1.4.1",
+		"jspdf": "^2.5.1",
 		"marked": "^13.0.1"
 	}
 }
