@@ -59,7 +59,7 @@
   
     /* Styling for the demo container */
     .demo-container {
-      max-width: 800px; /* Maximum width */
+      max-width: 100%; /* Maximum width */
       width: 100%; /* Full width */
     }
   </style>
