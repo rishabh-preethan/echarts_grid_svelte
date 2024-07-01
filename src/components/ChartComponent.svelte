@@ -1,46 +1,33 @@
 <script>
     import { onMount, onDestroy } from 'svelte';
     import * as echarts from 'echarts';
-
-    export let option = {};
-
-    // This component is responsible for rendering the echart
-
+  
+    export let option;
+  
     let chartDiv;
     let chart;
-
-    onMount(() => {
-      chart = echarts.init(chartDiv);
-      chart.setOption(option);
-
-      //   resizes and recalculates space after tile has been resized
-      const resizeObserver = new ResizeObserver(() => {
-        if (chart) {
-          chart.resize();
-        }
-      });
-      resizeObserver.observe(chartDiv);
-
-      return () => {
-        resizeObserver.disconnect();
-        if (chart) {
-          chart.dispose();
-        }
-      };
+  
+    const resizeObserver = new ResizeObserver(() => {
+      if (chart) {
+        chart.resize();
+      }
     });
-
+  
+    onMount(() => {
+      if (chartDiv && option) {
+        chart = echarts.init(chartDiv);
+        chart.setOption(option);
+        resizeObserver.observe(chartDiv);
+      }
+    });
+  
     onDestroy(() => {
       if (chart) {
+        resizeObserver.unobserve(chartDiv);
         chart.dispose();
       }
     });
-</script>
-
-<style>
-  .chart {
-    width: 100%;
-    height: 100%;
-  }
-</style>
-
-<div bind:this={chartDiv} class="chart"></div>
+  </script>
+  
+  <div bind:this={chartDiv} style="width: 100%; height: 100%;"></div>
+  
