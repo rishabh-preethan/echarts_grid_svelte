@@ -17,24 +17,44 @@
         return Math.ceil(baseHeight + data.length * dataPointFactor);
     }
 
-    function calculateWidth(data) {
-        const baseWidth = 4;
-        const dataPointFactor = 0.4;
-        return Math.ceil(baseWidth + data.length * dataPointFactor);
-    }
-
     function generateLayout(options) {
-        return options.map((option, i) => {
+        const rowLimit = 16;
+        const chartsPerRow = options.length <= 3 ? options.length : Math.ceil(options.length / 2);
+        const widthPerChart = Math.floor(rowLimit / chartsPerRow);
+        let xPosition = 0;
+        let yPosition = 0;
+        let maxHeightInRow = 0;
+        let layoutItems = [];
+
+        options.forEach((option, i) => {
             const data = option.series[0].data;
             const height = calculateHeight(data);
-            const width = calculateWidth(data);
-            return {
-                16: gridHelp.item({ x: (i * width) % 16, y: Math.floor(i / 4) * height, w: width, h: height }),
+
+            const item = {
                 id: id(),
                 option,
-                selected: false, // Add selected property
+                selected: false,
+                16: gridHelp.item({
+                    x: xPosition,
+                    y: yPosition,
+                    w: widthPerChart,
+                    h: height
+                })
             };
+
+            layoutItems.push(item);
+            maxHeightInRow = Math.max(maxHeightInRow, height);
+
+            if (xPosition + widthPerChart >= rowLimit) {
+                xPosition = 0;
+                yPosition += maxHeightInRow;
+                maxHeightInRow = 0;
+            } else {
+                xPosition += widthPerChart;
+            }
         });
+
+        return layoutItems;
     }
 
     let cols = [[1287, 16]];
