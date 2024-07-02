@@ -20,7 +20,7 @@
     function generateLayout(options) {
         const rowLimit = 16;
         const chartsPerRow = options.length <= 3 ? options.length : Math.ceil(options.length / 2);
-        const widthPerChart = Math.floor(rowLimit / chartsPerRow);
+        let widthPerChart = Math.floor(rowLimit / chartsPerRow);
         let xPosition = 0;
         let yPosition = 0;
         let maxHeightInRow = 0;
@@ -29,6 +29,11 @@
         options.forEach((option, i) => {
             const data = option.series[0].data;
             const height = calculateHeight(data);
+
+            // Adjust for the last row if it has an odd number of items
+            if (i === options.length - 1 && options.length % 2 === 1) {
+                widthPerChart = rowLimit; // Make the last single chart full width
+            }
 
             const item = {
                 id: id(),
@@ -51,6 +56,13 @@
                 maxHeightInRow = 0;
             } else {
                 xPosition += widthPerChart;
+            }
+
+            // Reset xPosition for the next row
+            if (xPosition >= rowLimit) {
+                xPosition = 0;
+                yPosition += maxHeightInRow;
+                maxHeightInRow = 0;
             }
         });
 
