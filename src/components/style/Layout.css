@@ -44,6 +44,8 @@
     background-color: #fff;
     border-left: 1px solid #ddd;
     padding: 20px;
+    scrollbar-width: thin;
+    scrollbar-color: #aaa #fff; 
     overflow-y: auto;
     margin-left: 25px;
     margin-right: 30px;
@@ -52,6 +54,21 @@
     overflow-wrap: break-word; /* Ensure long words are wrapped */
     word-break: break-word; /* Ensure words are broken if necessary */
     white-space: pre-wrap; /* Preserve white spaces and wrap text */
+}
+
+.text-container::-webkit-scrollbar {
+    width: 8px; /* Adjust the width of the scrollbar */
+    height: 8px; /* Adjust the height of the scrollbar */
+}
+
+.text-container::-webkit-scrollbar-track {
+    background: #fff; /* Track color */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.text-container::-webkit-scrollbar-thumb {
+    background-color: #aaa; /* Thumb color */
+    border-radius: 10px; /* Rounded corners */
 }
 
 .markdown-content {
