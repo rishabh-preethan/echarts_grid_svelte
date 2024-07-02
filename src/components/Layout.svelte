@@ -32,6 +32,7 @@
                 16: gridHelp.item({ x: (i * width) % 16, y: Math.floor(i / 4) * height, w: width, h: height }),
                 id: id(),
                 option,
+                selected: false, // Add selected property
             };
         });
     }
@@ -43,6 +44,11 @@
 
     // Function to update the text based on the clicked chart
     function handleChartClick(chartIndex) {
+        // Unselect all items
+        items.forEach(item => item.selected = false);
+        // Select the clicked item
+        items[chartIndex].selected = true;
+        // Update the selected text
         selectedText = chartTexts[chartIndex] || "No description available for this chart.";
     }
 </script>
@@ -57,7 +63,7 @@
 <div class="container">
     <div class="demo-container">
         <Grid bind:items={items} rowHeight={150} let:dataItem {cols}>
-            <div class="demo-widget">
+            <div class="demo-widget" class:selected={dataItem.selected}>
                 <ChartComponent option={dataItem.option} on:click={() => handleChartClick(items.indexOf(dataItem))} />
             </div>
         </Grid>
