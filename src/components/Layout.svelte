@@ -4,6 +4,7 @@
     import gridHelp from "svelte-grid/build/helper/index.mjs";
     import html2canvas from 'html2canvas';
     import jsPDF from 'jspdf';
+    import { marked } from 'marked';
 
     export let chartOptions = [];
 
@@ -37,6 +38,14 @@
     let cols = [[1287, 16]];
     let items = gridHelp.adjust(generateLayout(chartOptions), 16);
 
+    let selectedText = "Click on a chart to see details";
+
+    // Function to update the text based on the clicked chart
+    function handleChartClick(chartIndex) {
+        const markdownContent = `## Chart ${chartIndex + 1}\n\nThis is the detailed description of **Chart ${chartIndex + 1}** with some markdown formatting.`;
+        selectedText = markdownContent;
+    }
+
     // Function to download the charts as PDF
     async function downloadPDF() {
         const gridContainer = document.querySelector('.demo-container');
@@ -50,6 +59,11 @@
 
         pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
         pdf.save('charts.pdf');
+    }
+
+    // Function to render markdown content
+    function renderMarkdown(content) {
+        return marked(content);
     }
 </script>
 
@@ -73,9 +87,34 @@
         padding-left: 15px;
     }
 
+    .container {
+        display: flex;
+        height: 100vh;
+    }
+
     .demo-container {
-        max-width: 100%;
+        flex: 1;
+        max-width: 80%;
+        width: 80%;
+    }
+
+    .text-container {
+        width: 20%;
+        display: flex;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        align-items: center;
+        justify-content: center;
+        background-color: #fff;
+        border-left: 1px solid #ddd;
+        padding: 20px;
+        overflow-y: auto;
+        margin-left: 30px;
+    }
+
+    .markdown-content {
         width: 100%;
+        max-width: 100%;
     }
 
     button {
@@ -103,10 +142,19 @@
     </button>
 </div>
 
-<div class="demo-container">
-    <Grid bind:items={items} rowHeight={150} let:dataItem {cols}>
-        <div class="demo-widget">
-            <ChartComponent option={dataItem.option} />
+<div class="container">
+    <div class="demo-container">
+        <Grid bind:items={items} rowHeight={150} let:dataItem {cols}>
+            <div class="demo-widget">
+                <ChartComponent option={dataItem.option} on:click={() => handleChartClick(items.indexOf(dataItem))} />
+            </div>
+        </Grid>
+    </div>
+
+    <!-- Add a new fixed container for the text tile -->
+    <div class="text-container">
+        <div class="markdown-content">
+            {@html renderMarkdown(selectedText)}
         </div>
-    </Grid>
+    </div>
 </div>
