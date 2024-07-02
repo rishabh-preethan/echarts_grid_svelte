@@ -2,9 +2,10 @@
     import ChartComponent from './ChartComponent.svelte';
     import Grid from "svelte-grid";
     import gridHelp from "svelte-grid/build/helper/index.mjs";
-    import html2canvas from 'html2canvas';
-    import jsPDF from 'jspdf';
-    import { marked } from 'marked';
+    import { downloadPDF } from '../helper/pdfHelper.js'; // Import the downloadPDF function
+    import MarkdownRenderer from './MarkdownRenderer.svelte'; // Import the MarkdownRenderer component
+    import { chartTexts } from '../data/echartDescriptions.js'; // Import the chart texts
+    import "./style/Layout.css"; // Import the CSS file
 
     export let chartOptions = [];
 
@@ -42,100 +43,9 @@
 
     // Function to update the text based on the clicked chart
     function handleChartClick(chartIndex) {
-        const markdownContent = `## Chart ${chartIndex + 1}\n\nThis is the detailed description of **Chart ${chartIndex + 1}** with some markdown formatting.`;
-        selectedText = markdownContent;
-    }
-
-    // Function to download the charts as PDF
-    async function downloadPDF() {
-        const gridContainer = document.querySelector('.demo-container');
-        const canvas = await html2canvas(gridContainer, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#f3f4f6' // Explicitly set the background color
-        });
-        const pdf = new jsPDF('landscape', 'pt', [canvas.width, canvas.height]);
-        const imgData = canvas.toDataURL('image/png');
-
-        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
-        pdf.save('charts.pdf');
-    }
-
-    // Function to render markdown content
-    function renderMarkdown(content) {
-        return marked(content);
+        selectedText = chartTexts[chartIndex] || "No description available for this chart.";
     }
 </script>
-
-<style>
-    :global(body) {
-        background-color: #f3f4f6; /* Set background color here */
-        margin: 0;
-        font-family: sans-serif;
-    }
-
-    .demo-widget {
-        background: rgb(255, 255, 255);
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding-top: 15px;
-        padding-left: 15px;
-    }
-
-    .container {
-        display: flex;
-        height: 100vh;
-    }
-
-    .demo-container {
-        flex: 1;
-        max-width: 80%;
-        width: 80%;
-    }
-
-    .text-container {
-        width: 20%;
-        display: flex;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        align-items: center;
-        justify-content: start;
-        background-color: #fff;
-        border-left: 1px solid #ddd;
-        padding: 20px;
-        overflow-y: auto;
-        margin-left: 25px;
-        margin-right: 30px;
-        margin-top: 10px;
-    }
-
-    .markdown-content {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    button {
-        margin-bottom: 10px;
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 10px;
-        color: #333;
-    }
-
-    button:hover {
-        color: #000;
-    }
-
-    .material-icons {
-        font-size: 25px;
-    }
-</style>
 
 <div>
     <!-- Download button with Material Icon -->
@@ -155,8 +65,6 @@
 
     <!-- Add a new fixed container for the text tile -->
     <div class="text-container">
-        <div class="markdown-content">
-            {@html renderMarkdown(selectedText)}
-        </div>
+        <MarkdownRenderer content={selectedText} />
     </div>
 </div>
