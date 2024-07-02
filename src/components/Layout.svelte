@@ -12,7 +12,7 @@
 
     function calculateHeight(data) {
         const baseHeight = 1;
-        const dataPointFactor = 0.2;
+        const dataPointFactor = 0.1;
         return Math.ceil(baseHeight + data.length * dataPointFactor);
     }
 
@@ -104,12 +104,14 @@
         border-radius: 15px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         align-items: center;
-        justify-content: center;
+        justify-content: start;
         background-color: #fff;
         border-left: 1px solid #ddd;
         padding: 20px;
         overflow-y: auto;
-        margin-left: 30px;
+        margin-left: 25px;
+        margin-right: 30px;
+        margin-top: 10px;
     }
 
     .markdown-content {
